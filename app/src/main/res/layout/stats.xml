@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="600px"
+        android:layout_height="1000px"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Här kommer du kunna se inställningar och ha möjlighet att logga ut ifall du registrerade fel. Dock är detta inte implementerat i denna demo-version."
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal"
+        android:background="#fff8f8f8"
+        android:textColor="#ff000000"
+        android:gravity="center" />
+</LinearLayout>
