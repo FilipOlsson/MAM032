@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,10 +25,9 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity implements OnClickListener{
-    private Button scanBtn;
-    private Button stats;
-    private Button info;
+    private ImageButton scanBtn,stats, info;
     private PopupWindow pop;
+    private EditText team;
     private LayoutInflater layoutInflater;
     private int sum,added;
     private TextView formatTxt, contentTxt, statsView;
@@ -34,56 +35,17 @@ public class MainActivity extends Activity implements OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        relativelayout = (RelativeLayout) findViewById(R.id.relative);
-        scanBtn = (Button)findViewById(R.id.scan_button);
-        stats = (Button)findViewById(R.id.button);
-        info = (Button)findViewById(R.id.button2);
+        setContentView(R.layout.startscreen);
+
         sum=0;
        // formatTxt = (TextView)findViewById(R.id.scan_format);
        // contentTxt = (TextView)findViewById(R.id.scan_content);
-
-        statsView= (TextView)findViewById(R.id.textView3);
-        statsView.setText("Dina poäng: "+sum+"\nKlassens poäng: "+(sum+531));
-
+        team = (EditText)findViewById(R.id.editText);
         // statsView =(TextView)findViewById(R.id.textView2);
         //statsView.setText("Poäng: ");
 
 
-        scanBtn.setOnClickListener(this);
-        stats.setOnClickListener(new View.OnClickListener(){
-           public void onClick(View view){
-                layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-               ViewGroup container = (ViewGroup)layoutInflater.inflate(R.layout.stats,null);
 
-               pop = new PopupWindow(container,600,1000,true);
-               pop.showAtLocation(relativelayout, Gravity.NO_GRAVITY,60,100);
-              // statsView= (TextView)findViewById(R.id.textView3);
-               statsView.setText("Dina poäng: "+sum+"\nKlassens poäng: "+(sum+531));
-               container.setOnTouchListener(new View.OnTouchListener(){
-                   public boolean onTouch(View view, MotionEvent motionEvent){
-                       pop.dismiss();
-                       return true;
-                   }
-               });
-            }
-        });
-        info.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                ViewGroup container2 = (ViewGroup) layoutInflater.inflate(R.layout.info, null);
-
-                pop = new PopupWindow(container2, 600, 1000, true);
-                pop.showAtLocation(relativelayout, Gravity.NO_GRAVITY, 60, 100);
-                container2.setOnTouchListener(new View.OnTouchListener() {
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        pop.dismiss();
-
-                        return true;
-                    }
-                });
-            }
-        });
 
     }
 
@@ -112,7 +74,67 @@ public class MainActivity extends Activity implements OnClickListener{
     public void onClick(View v){
     //respond to clicks
 
-    if(v.getId()==R.id.scan_button){
+    if(v.getId()==R.id.imageButton) {
+        String temp;
+        temp= team.getText().toString();
+        if(temp!=null){
+            if("blåtiger".equalsIgnoreCase(temp.replaceAll("\\s+",""))){
+                setContentView(R.layout.activity_main);
+
+                relativelayout = (RelativeLayout) findViewById(R.id.relative);
+                scanBtn = (ImageButton)findViewById(R.id.scan_button);
+                stats = (ImageButton)findViewById(R.id.button);
+                info = (ImageButton)findViewById(R.id.button2);
+
+                statsView= (TextView)findViewById(R.id.textView3);
+                scanBtn.setOnClickListener(this);
+                stats.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                        ViewGroup container = (ViewGroup)layoutInflater.inflate(R.layout.stats,null);
+
+                        pop = new PopupWindow(container,600,1000,true);
+                        pop.showAtLocation(relativelayout, Gravity.NO_GRAVITY,60,100);
+                        // statsView= (TextView)findViewById(R.id.textView3);
+                        statsView.setText("Dina poäng: "+sum+"\nKlassens poäng: "+(sum+531));
+                        container.setOnTouchListener(new View.OnTouchListener(){
+                            public boolean onTouch(View view, MotionEvent motionEvent){
+                                pop.dismiss();
+                                return true;
+                            }
+                        });
+                    }
+                });
+                info.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                        ViewGroup container2 = (ViewGroup) layoutInflater.inflate(R.layout.info, null);
+
+                        pop = new PopupWindow(container2, 600, 1000, true);
+                        pop.showAtLocation(relativelayout, Gravity.NO_GRAVITY, 60, 100);
+                        container2.setOnTouchListener(new View.OnTouchListener() {
+                            public boolean onTouch(View view, MotionEvent motionEvent) {
+                                pop.dismiss();
+
+                                return true;
+                            }
+                        });
+                    }
+                });
+                statsView.setText("Dina poäng: "+sum+"\nKlassens poäng: "+(sum+531));
+
+            }else{
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Skriv in ett giltligt lag!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Skriv in ett lag!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+    }else if(v.getId()==R.id.scan_button){
     //scan
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
